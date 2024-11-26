@@ -16,9 +16,14 @@ app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-// Example: GET route
-app.get('/api/users', (req, res) => {
-    res.json([{ id: 1, name: 'John Doe' }, { id: 2, name: 'Jane Doe' }]);
+// GET route
+app.get('/employees', function (req, res) {
+    db.query('SELECT * FROM employees', function (error, results, fields) {
+        if (error) throw error;
+
+        return res.send({ error: false, data: results, message: 'employee list'});
+        
+    })
   });
   
   // Example: POST route
