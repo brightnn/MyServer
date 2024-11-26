@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 
+
 // Middleware to parse JSON requests
 app.use(express.json());
 
@@ -46,8 +47,8 @@ app.get('/api/users', (req, res) => {
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'your_password',
-  database: 'your_database'
+  password: 'Mypassword',
+  database: 'mydb'
 });
 
 db.connect(err => {
@@ -57,9 +58,6 @@ db.connect(err => {
   }
   console.log('Connected to the database.');
 });
-
-require('dotenv').config();
-const PORT = process.env.PORT || 3000;
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
