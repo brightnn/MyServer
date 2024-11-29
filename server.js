@@ -17,11 +17,11 @@ app.listen(PORT, () => {
 });
 
 // GET route
-app.get('/employees', function (req, res) {
-    db.query('SELECT * FROM employees', function (error, results, fields) {
+app.get('/products', function (req, res) {
+    db.query('SELECT * FROM products', function (error, results, fields) {
         if (error) throw error;
 
-        return res.send({ error: false, data: results, message: 'employee list'});
+        return res.send({ error: false, data: results, message: 'products list'});
         
     })
   });
