@@ -30,25 +30,61 @@ app.get('/products', function (req, res) {
   });
 });
   
-  // POST route
-  app.post('/api/users', (req, res) => {
-    const newUser = req.body;
-    // Simulate saving to a database
-    res.status(201).json({ message: 'User added', user: newUser });
+// POST route to add a new product
+app.post('/products', (req, res) => {
+  const { name, price } = req.body;
+
+  if (!name || !price) {
+      return res.status(400).send({ error: true, message: 'Product name and price are required' });
+  }
+
+  const query = 'INSERT INTO products (name, price) VALUES (?, ?)';
+  db.query(query, [name, price], (error, results) => {
+      if (error) throw error;
+
+      res.send({ error: false, data: results, message: 'Product added successfully' });
   });
+});
+
   
-  // Example: PUT route
-  app.put('/api/users/:id', (req, res) => {
-    const userId = req.params.id;
-    const updatedData = req.body;
-    res.json({ message: `User ${userId} updated`, updatedData });
+  // PUT route to update an existing product
+app.put('/products/:id', (req, res) => {
+  const { id } = req.params;
+  const { name, price } = req.body;
+
+  if (!name || !price) {
+      return res.status(400).send({ error: true, message: 'Product name and price are required' });
+  }
+
+  const query = 'UPDATE products SET name = ?, price = ? WHERE id = ?';
+  db.query(query, [name, price, id], (error, results) => {
+      if (error) throw error;
+
+      if (results.affectedRows === 0) {
+          return res.status(404).send({ error: true, message: 'Product not found' });
+      }
+
+      res.send({ error: false, data: results, message: 'Product updated successfully' });
   });
+});
+
   
-  // Example: DELETE route
-  app.delete('/api/users/:id', (req, res) => {
-    const userId = req.params.id;
-    res.json({ message: `User ${userId} deleted` });
+  // DELETE route to remove a product
+app.delete('/products/:id', (req, res) => {
+  const { id } = req.params;
+
+  const query = 'DELETE FROM products WHERE id = ?';
+  db.query(query, [id], (error, results) => {
+      if (error) throw error;
+
+      if (results.affectedRows === 0) {
+          return res.status(404).send({ error: true, message: 'Product not found' });
+      }
+
+      res.send({ error: false, data: results, message: 'Product deleted successfully' });
   });
+});
+
 
   
   const mysql = require('mysql2');
