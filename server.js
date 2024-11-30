@@ -22,13 +22,13 @@ app.listen(PORT, () => {
 
 // GET route
 app.get('/products', function (req, res) {
-    db.query('SELECT * FROM products', function (error, results, fields) {
-        if (error) throw error;
+  db.query('SELECT * FROM products', function (error, results) {
+      if (error) throw error;
 
-        return res.send({ error: false, data: results, message: 'products list'});
-        
-    })
+      // Send the array directly
+      return res.json(results);
   });
+});
   
   // POST route
   app.post('/api/users', (req, res) => {
