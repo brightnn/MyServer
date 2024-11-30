@@ -26,7 +26,7 @@ app.get('/products', function (req, res) {
     })
   });
   
-  // Example: POST route
+  // POST route
   app.post('/api/users', (req, res) => {
     const newUser = req.body;
     // Simulate saving to a database
@@ -53,7 +53,7 @@ const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: 'Mypassword',
-  database: 'mydb'
+  database: 'bright_store'
 });
 
 db.connect(err => {
